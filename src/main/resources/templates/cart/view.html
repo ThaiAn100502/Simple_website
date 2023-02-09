@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      th:replace="~{/layout/index :: dynamic(~{::main})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<main>
+    <div class="list-group" th:fragment="shopping_cart">
+        <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+            Shopping cart
+        </a>
+        <div class="list-group">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Amount</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in cart.items">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.price|number:2}}</td>
+                    <td><input ng-change="cart.saveToLocalStorage()" ng-model="item.qty" type="number" min="1" style="width: 50px" text-center></td>
+                    <td>${{item.qty*item.price | number :2}}</td>
+                    <td>
+                        <button ng-click="cart.remove(item.id)" class="bi bi-wifi btn btn-danger"></button>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+        <div class="card-footer">
+            <button ng-click="cart.clear()" class="bi bi-wifi btn btn-danger">clear</button>
+            <a th:href="@{/order/checkout}" class="bi bi-wifi btn btn-primary">checkbox</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

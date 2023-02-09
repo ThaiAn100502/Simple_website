@@ -1,0 +1,41 @@
+package com.fpoly.java6_asm.impl;
+
+import com.fpoly.java6_asm.service.UploadService;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.ServletContext;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+@Service
+@Slf4j// log console
+public class UploadServiceImpl implements UploadService {
+    @Autowired
+    ServletContext app;
+    @Value("${server.upload.dir}")
+    private String uploadDir;
+
+    @SneakyThrows
+    @Override
+    public File save(MultipartFile file, String folder) {
+        String s = file.getOriginalFilename();
+        String name = Integer.toHexString(s.hashCode()) + s.substring(s.lastIndexOf("."));
+//        Path dirPath = Paths.get(System.getProperty("user.dir"), "src", "main", "resources", "static", uploadDir, folder);
+        Path dirPath = Paths.get(System.getProperty("user.dir"), uploadDir, folder);
+        log.info(">>Image folder path: {}", dirPath);
+        if (Files.notExists(dirPath)) Files.createDirectories(dirPath);
+
+//            File saveFile = new File(dir, file.getOriginalFilename());
+        Path saveFile = dirPath.resolve(name);
+        file.transferTo(saveFile);
+        log.info(">> File path: {} in desktop.", saveFile.toFile().getAbsolutePath());
+        return saveFile.toFile();
+    }
+}

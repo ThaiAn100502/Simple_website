@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      th:replace="~{/layout/index :: dynamic(~{::main})}">
+<meta charset="UTF-8">
+<title>Title</title>
+</head>
+<body>
+<main th:object="${item} ">
+<div class="row">
+    <div class="card" style="width: 18rem;">
+        <img th:src="@{|/upload/images/*{image}|}" class="card-img-top" >
+        <div class="card-body">
+            <ul>
+                <li th:text="*{name}"></li>
+                <li th:text="*{price}"></li>
+                <li th:text="*{createDate}"></li>
+                <li th:text="*{category.name}"></li>
+            </ul>
+        </div>
+        <div class="card-footer">
+            <button class="bi bi-wifi btn btn-primary btn-btn-success"></button>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="card">
+            <h5 class="card-header">Hang cung loai</h5>
+            <div class="card-body">
+                <ul>
+                    <li th:each="p:*{category.products}">
+                        <a th:href="@{|/product/detail/${p.id}|}" th:text="${p.name}"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+</body>
+</html>

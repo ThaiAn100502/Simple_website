@@ -1,0 +1,106 @@
+<!--Table Edit-->
+<div class="container">
+    <div class="header">
+        <h1>Product edit</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 text-center">
+            <label for="image">
+<!--                ng-src="{{'/assets/upload/images/'+form.image}}"-->
+                <img src="{{'/upload/images/' + form.image}}"  style="max-width: 100%;height: fit-content"/>
+            </label>
+        </div>
+        <div class="col-sm-8">
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <div>name</div>
+                    <input ng-model="form.name" class="form-control">
+                </div>
+                <div class="form-group col-sm-6">
+                    <div>price</div>
+                    <input ng-model="form.price" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form=group col-sm-6">
+                    <div>Image</div>
+                    <input type="file" class="form-control" id="image" onchange="angular.element(this).scope().imageChanged(this.files)">
+                </div>
+                <div class="form-group col-sm-6">
+                    <div>Category</div>
+                    <select ng-model="form.category.id" class="form-control">
+                        <option ng-repeat="c in cates" ng-value="c.id">{{c.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <div>Create Date</div>
+                    <input ng-model="form.createDate" type="date" class="form-control">
+                </div>
+                <div class="form-group col-sm-6">
+                    <div>Available?</div>
+                    <div class="form-check-inline">
+                        <input ng-model="form.available" class="form-check-input" ng-value="true" type="radio" name="Available" id="Available1">
+                        <label class="form-check-label" for="Available1">
+                            Yes
+                        </label>
+                    </div>
+                    <div class="form-check-inline">
+                        <input ng-model="form.available"  class="form-check-input" ng-value="false" type="radio" name="Available" id="Available2" checked>
+                        <label class="form-check-label" for="Available2">
+                            No
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  <div class="footer text-center">
+      <button type="submit" ng-click="create()" class="btn btn-outline-primary">Create</button>
+      <button type="submit" ng-click="update()" class="btn btn-outline-secondary">Update</button>
+      <button type="submit" ng-click="reset()" class="btn btn-outline-danger">Clear</button>
+  </div>
+</div>
+<!--List-->
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">name</th>
+            <th scope="col">price</th>
+            <th scope="col">create date</th>
+            <th scope="col">image</th>
+            <th scope="col">category</th>
+            <th scope="col">available</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody >
+        <tr ng-repeat="item in pager.items ">
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.price | number :2}}</td>
+            <td>{{item.createDate | date: 'dd-MM-yyyy'}}</td>
+            <td>{{item.image}}</td>
+            <td>{{item.category.name}}</td>
+            <td>{{item.available?'Yes':'No'}}</td>
+            <th>
+                <div class="btn-group btn-group-xs">
+                    <button type="submit" ng-click="edit(item)" class="btn btn-outline-secondary">Update</button>
+                    <button type="submit" ng-click="delete(item)" class="btn btn-outline-success">Delete</button>
+                </div>
+            </th>
+        </tr>
+
+        </tbody>
+    </table>
+    <div class="footer text-center">
+        <button type="submit" ng-click="pager.fist()" class="btn btn-outline-primary">first</button>
+        <button type="submit" ng-click="pager.prev()" class="btn btn-outline-secondary">pre</button>
+        <button type="button" class="btn btn-outline-dark">{{pager.page +1}} of {{pager.count}}</button>
+        <button type="submit" ng-click="pager.next()" class="btn btn-outline-success">next</button>
+        <button type="submit" ng-click="pager.last()" class="btn btn-outline-danger">end</button>
+    </div>
+</div>
